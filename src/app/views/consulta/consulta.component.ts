@@ -24,7 +24,7 @@ export class ConsultaComponent implements OnInit {
 
   navigateToConsultaCreate(): void {
     const dialogRef = this.dialog.open(ConsultaDialogComponent, {
-      width: '400px'
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(cpf => {

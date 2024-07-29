@@ -1,9 +1,42 @@
 <h1 mat-dialog-title>Nova Consulta</h1>
 <div mat-dialog-content>
-  <mat-form-field appearance="fill">
-    <mat-label>CPF</mat-label>
-    <input matInput [(ngModel)]="cpf" placeholder="Digite o CPF" />
-  </mat-form-field>
+  <div class="form-group">
+     <!-- Campo para selecionar entre CPF e CNPJ -->
+     <mat-form-field appearance="fill">
+      <mat-label>Tipo de Documento</mat-label>
+      <mat-select [(ngModel)]="documentType">
+        <mat-option value="cpf">CPF</mat-option>
+        <mat-option value="cnpj">CNPJ</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+      <!-- Campo para Data -->
+      <mat-form-field appearance="fill">
+        <mat-label>Escolha uma data</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="MM/DD/YYYY" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="field-container">
+      <!-- Campo para CPF ou CNPJ -->
+      <mat-form-field appearance="fill">
+        <mat-label>{{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}</mat-label>
+        <input matInput [(ngModel)]="documentValue" placeholder="Digite o {{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}" />
+      </mat-form-field>
+
+    <!-- Campo para selecionar o intervalo de pesquisa -->
+    <mat-form-field appearance="fill">
+      <mat-label>Data da Pesquisa</mat-label>
+      <mat-select [(ngModel)]="researchPeriod">
+        <mat-option value="1m">1 Mês</mat-option>
+        <mat-option value="2m">2 Meses</mat-option>
+        <mat-option value="3m">3 Meses</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onSubmit()">Consultar</button>

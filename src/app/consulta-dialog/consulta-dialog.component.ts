@@ -9,7 +9,10 @@ import { PepsModel } from '../model/peps.model';
   styleUrls: ['./consulta-dialog.component.css']
 })
 export class ConsultaDialogComponent {
-  cpf: string = '';
+  documentType: string = ''; // Propriedade para tipo de documento (CPF ou CNPJ)
+  documentValue: string = ''; // Propriedade para CPF ou CNPJ
+  selectedDate: Date | null = null; // Propriedade para a data selecionada
+  researchPeriod: string = ''; // Propriedade para o intervalo de pesquisa (1m, 2m, 3m)
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
@@ -18,8 +21,9 @@ export class ConsultaDialogComponent {
   ) { }
 
   onSubmit(): void {
-    if (this.cpf) {
-      this.dialogRef.close(this.cpf);
+    if (this.documentValue) {
+      // Aqui você pode fazer o processamento necessário com os dados
+      this.dialogRef.close(this.documentValue);
     }
   }
 
