@@ -27,6 +27,9 @@ import localePt from '@angular/common/locales/pt';
 import {registerLocaleData} from '@angular/common';
 import { HomeComponent } from './views/home/home.component';
 import { ConsultaComponent } from './views/consulta/consulta.component';
+import { ConsultaDialogComponent } from './consulta-dialog/consulta-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PepsPageComponent } from './components/peps-page/peps-page.component';
 
 registerLocaleData(localePt);
 
@@ -38,6 +41,9 @@ registerLocaleData(localePt);
     NavComponent,
     HomeComponent,
     ConsultaComponent,
+    ConsultaDialogComponent,
+    PepsPageComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -56,6 +62,7 @@ registerLocaleData(localePt);
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDialogModule
   ],
   providers: [{
     provide: LOCALE_ID,

@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Nova Consulta</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>CPF</mat-label>
+    <input matInput [(ngModel)]="cpf" placeholder="Digite o CPF" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSubmit()">Consultar</button>
+  <button mat-button (click)="onClose()">Fechar</button>
+</div>
