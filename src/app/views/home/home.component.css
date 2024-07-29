@@ -1,0 +1,12 @@
+.home {
+    margin-top: 70px; /* Ajusta o espaço superior conforme necessário */
+    padding: 16px; /* Ajusta o padding geral do card */
+}
+
+.title {
+    margin-bottom: 16px; /* Adiciona espaço abaixo do título */
+}
+
+.subtitle {
+    margin-top: 8px; /* Adiciona espaço acima do subtítulo, se necessário */
+}

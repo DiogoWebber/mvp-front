@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: calc(100% - 200px); /* Ajusta a largura para considerar o sidenav */
+    right: 0;
+    z-index: 2;
+    transition: width 0.3s ease;
+}
+
+.header a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+
+.header .title-group {
+    padding-left: 55px;
+}
+
+.header .title-group i {
+    padding-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        width: calc(100% - 50px); /* Ajusta para telas menores */
+    }
+
+    .sidenav {
+        width: 50px; /* Ajusta a largura do sidenav para telas menores */
+    }
+
+    .content {
+        margin-left: 50px; /* Ajusta o margin-left para telas menores */
+    }
+}

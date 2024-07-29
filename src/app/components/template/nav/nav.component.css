@@ -1,0 +1,68 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100vh; /* Faz o container ocupar toda a altura da tela */
+}
+
+.sidenav {
+    background-color: #3f51b5;
+    width: 200px;
+    flex: none; /* Fixa a largura do sidenav */
+    height: 100vh; /* Faz o sidenav ocupar toda a altura da tela */
+    position: fixed; /* Fixa o sidenav na posição */
+    top: 0;
+    z-index: 1; /* Garante que o sidenav fique atrás do header */
+    transition: width 0.3s ease;
+}
+
+.logo-toolbar {
+    background-color: #3f51b5; /* Cor de fundo, se necessário */
+    padding: 16px; /* Ajuste o padding conforme necessário */
+}
+
+.logo {
+    max-height: 50px; /* Ajuste a altura máxima conforme necessário */
+    max-width: 100%; /* Garante que a imagem não ultrapasse o container */
+}
+
+.nav-list {
+    padding: 0; /* Remove o padding padrão, se necessário */
+}
+
+.mat-list-item {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    width: 100%; /* Garante que o link ocupe toda a largura do sidenav */
+    box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura total */
+}
+
+.mat-list-item i {
+    padding-right: 10px;
+}
+
+.content {
+    padding: 16px;
+    background-color: white;
+    flex: 1; /* Faz com que o conteúdo ocupe o espaço restante */
+    margin-left: 200px; /* Adiciona espaço para o sidenav */
+    overflow: auto; /* Adiciona rolagem se o conteúdo exceder a altura da tela */
+    transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .sidenav {
+        width: 50px; /* Ajusta a largura do sidenav para telas menores */
+    }
+
+    .content {
+        margin-left: 50px; /* Ajusta o margin-left para telas menores */
+    }
+}
