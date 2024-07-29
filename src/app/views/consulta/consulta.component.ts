@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router'; // Importa Router
 import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog.component';
 import { PepsModel } from './../../model/peps.model';
 
@@ -14,7 +15,8 @@ export class ConsultaComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router // Injeção do Router
   ) { }
 
   ngOnInit(): void {
@@ -36,11 +38,7 @@ export class ConsultaComponent implements OnInit {
     const url = `${this.apiUrl}/${encodeURIComponent(cpf)}`; // Construa a URL com o CPF
     this.http.get<PepsModel>(url).subscribe(data => {
       console.log('Dados recebidos da API:', data); 
-      this.dialog.open(ConsultaDialogComponent, {
-        width: '400px',
-        data: data,
-
-      });
+      this.router.navigate(['/peps'], { queryParams: { data: JSON.stringify(data) } });
     }, error => {
       console.error('Erro ao buscar dados da API', error);
     });

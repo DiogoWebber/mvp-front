@@ -19,8 +19,7 @@ export class ConsultaDialogComponent {
 
   onSubmit(): void {
     if (this.cpf) {
-      this.dialogRef.close(this.cpf); // Passa o CPF de volta para o componente pai
-
+      this.dialogRef.close(this.cpf);
     }
   }
 
