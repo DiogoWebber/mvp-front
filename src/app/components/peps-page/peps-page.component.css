@@ -1,6 +1,6 @@
 .mat-elevation-z8 {
     margin: 20px;
-    margin-top: 70px;
+    margin-top: 35px;
   }
   
   .example-container {
@@ -23,6 +23,20 @@
   }
   
   .mat-icon {
-    font-size: 24px; /* Ajuste o tamanho do ícone se necessário */
+    cursor: pointer;
+    font-size: 24px;
+    vertical-align: middle;
   }
+  
+  .mat-cell {
+    padding: 8px;
+  }
+  
+  .extra-info-container {
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
   

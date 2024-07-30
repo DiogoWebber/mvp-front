@@ -1,20 +1,3 @@
-/* consulta-dialog.component.css */
-.form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .field-container {
-    display: flex;
-    gap: 26px; /* Ajuste o espaçamento conforme necessário */
-    margin-bottom: 26px; /* Ajuste a margem conforme necessário */
-  }
-  
-  mat-form-field {
-    flex: 1; /* Faz com que os campos ocupem o mesmo espaço disponível */
-  }
-  
-  .mat-form-field-appearance-fill {
-    width: 100%;
-  }
-  
+.research-period-field{
+  width: 236px;
+}

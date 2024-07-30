@@ -10,7 +10,8 @@ import { DataService } from './../../data-service.service';
   styleUrls: ['./peps-page.component.css']
 })
 export class PepsPageComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['documentValue', 'nome', 'funcao', 'orgao', 'dtInicioExercicio', 'dtFimExercicio'];
+  displayedColumns: string[] = ['documentValue', 'nome', 'funcao', 'orgao', 
+  'dtInicioExercicio', 'dtFimExercicio', 'actions'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   expandedElement: any | null = null;
 

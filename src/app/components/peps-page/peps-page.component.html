@@ -1,25 +1,12 @@
 <h1>PEPS Page</h1>
+
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="dataSource" matSort>
 
     <!-- CPF Column -->
     <ng-container matColumnDef="documentValue">
       <mat-header-cell *matHeaderCellDef mat-sort-header> CPF </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-expansion-panel hideToggle [expanded]="expandedElement === element" 
-        (opened)="expandedElement = element" (closed)="expandedElement = null">
-          <mat-expansion-panel-header>
-              <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-              <span>{{element.cpf}}</span>
-          </mat-expansion-panel-header>
-          <div>
-            <p>Código do Órgão: {{element.codOrgao}}</p>
-            <p>Sigla da Função: {{element.siglaFuncao}}</p>
-            <p>Nível da Função: {{element.nivelFuncao}}</p>
-            <p>Fim da Carência: {{element.dtFimCarencia | date}}</p>
-          </div>
-        </mat-expansion-panel>
-      </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.cpf}} </mat-cell>
     </ng-container>
 
     <!-- Other Columns -->
@@ -48,8 +35,29 @@
       <mat-cell *matCellDef="let element"> {{element.dtFimExercicio | date}} </mat-cell>
     </ng-container>
 
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-expansion-panel hideToggle [expanded]="expandedElement === element" 
+        (opened)="expandedElement = element" (closed)="expandedElement = null">
+          <mat-expansion-panel-header>
+            <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
+            <mat-panel-title>Informações extras</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <p>Código do Órgão: {{element.codOrgao}}</p>
+            <p>Sigla da Função: {{element.siglaFuncao}}</p>
+            <p>Nível da Função: {{element.nivelFuncao}}</p>
+            <p>Fim da Carência: {{element.dtFimCarencia | date}}</p>
+          </div>
+        </mat-expansion-panel>
+      </mat-cell>
+    </ng-container>
+
     <!-- Main Row Definitions -->
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple></mat-row>
+
   </mat-table>
 </div>
