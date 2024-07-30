@@ -40,4 +40,7 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  toggleExtraInfo(element: any) {
+    this.expandedElement = this.expandedElement === element ? null : element;
+  }
 }
