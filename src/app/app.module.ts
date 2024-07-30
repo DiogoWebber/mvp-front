@@ -30,6 +30,10 @@ import { HomeComponent } from './views/home/home.component';
 import { ConsultaComponent } from './views/consulta/consulta.component';
 import { ConsultaDialogComponent } from './consulta-dialog/consulta-dialog.component';
 import { PepsPageComponent } from './components/peps-page/peps-page.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+
 
 registerLocaleData(localePt);
 
@@ -64,7 +68,10 @@ registerLocaleData(localePt);
     MatDialogModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxMaskModule.forRoot(),
+    MatExpansionModule,
+    MatIconModule
   ],
   providers: [{
     provide: LOCALE_ID,

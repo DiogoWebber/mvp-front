@@ -1,7 +1,7 @@
+import { DataService } from './../data-service.service';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { PepsModel } from '../model/peps.model';
 
 @Component({
   selector: 'app-consulta-dialog',
@@ -9,22 +9,28 @@ import { PepsModel } from '../model/peps.model';
   styleUrls: ['./consulta-dialog.component.css']
 })
 export class ConsultaDialogComponent {
-  documentType: string = ''; // Propriedade para tipo de documento (CPF ou CNPJ)
-  documentValue: string = ''; // Propriedade para CPF ou CNPJ
-  selectedDate: Date | null = null; // Propriedade para a data selecionada
-  researchPeriod: string = ''; // Propriedade para o intervalo de pesquisa (1m, 2m, 3m)
+  documentType: string = ''; 
+  documentValue: string = '';
+  selectedDate: Date | null = null; 
+  researchPeriod: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
+    private dataService: DataService,
     private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: PepsModel
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   onSubmit(): void {
-    if (this.documentValue) {
-      // Aqui você pode fazer o processamento necessário com os dados
-      this.dialogRef.close(this.documentValue);
-    }
+    const dialogData = {
+      documentType: this.documentType,
+      documentValue: this.documentValue,
+      selectedDate: this.selectedDate,
+      researchPeriod: this.researchPeriod
+    };
+
+    this.dataService.setDialogData(dialogData);
+    this.dialogRef.close(dialogData.documentValue);
   }
 
   onClose(): void {

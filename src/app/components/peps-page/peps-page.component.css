@@ -1,0 +1,28 @@
+.mat-elevation-z8 {
+    margin: 20px;
+    margin-top: 70px;
+  }
+  
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+  }
+  .example-element-row {
+    transition: all 0.3s ease;
+  }
+  
+  .example-element-detail {
+    background-color: #f1f1f1;
+    display: table;
+  }
+  .mat-expansion-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .mat-icon {
+    font-size: 24px; /* Ajuste o tamanho do ícone se necessário */
+  }
+  

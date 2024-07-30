@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router'; // Importa Router
+import { Router } from '@angular/router';
 import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog.component';
 import { PepsModel } from './../../model/peps.model';
+import { DataService } from './../../data-service.service';
 
 @Component({
   selector: 'app-consulta',
@@ -11,12 +12,13 @@ import { PepsModel } from './../../model/peps.model';
   styleUrls: ['./consulta.component.css']
 })
 export class ConsultaComponent implements OnInit {
-  private apiUrl = 'https://localhost:7121/api/v1/peps/busca'; // URL base da sua API
+  private apiUrl = 'https://localhost:7121/api/v1/peps/busca'; 
 
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
-    private router: Router // Injeção do Router
+    private router: Router,
+    private dataService: DataService
   ) { }
 
   ngOnInit(): void {
@@ -35,12 +37,14 @@ export class ConsultaComponent implements OnInit {
   }
 
   private consultarPeps(cpf: string): void {
-    const url = `${this.apiUrl}/${encodeURIComponent(cpf)}`; // Construa a URL com o CPF
-    this.http.get<PepsModel>(url).subscribe(data => {
+    const url = `${this.apiUrl}/${encodeURIComponent(cpf)}`; 
+    this.http.get<PepsModel[]>(url).subscribe(data => {
       console.log('Dados recebidos da API:', data); 
-      this.router.navigate(['/peps'], { queryParams: { data: JSON.stringify(data) } });
+      this.dataService.setApiData(data);
+      this.router.navigate(['/peps']);
     }, error => {
       console.error('Erro ao buscar dados da API', error);
     });
   }
+  
 }

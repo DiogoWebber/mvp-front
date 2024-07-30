@@ -24,7 +24,9 @@
       <!-- Campo para CPF ou CNPJ -->
       <mat-form-field appearance="fill">
         <mat-label>{{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}</mat-label>
-        <input matInput [(ngModel)]="documentValue" placeholder="Digite o {{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}" />
+        <input matInput [(ngModel)]="documentValue" 
+         [mask]="documentType === 'cpf' ? '000.000.000-00' : '00.000.000/0000-00'"
+         placeholder="Digite o {{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}" />
       </mat-form-field>
 
     <!-- Campo para selecionar o intervalo de pesquisa -->
@@ -34,6 +36,13 @@
         <mat-option value="1m">1 Mês</mat-option>
         <mat-option value="2m">2 Meses</mat-option>
         <mat-option value="3m">3 Meses</mat-option>
+        <mat-option value="1m">4 Meses</mat-option>
+        <mat-option value="2m">5 Meses</mat-option>
+        <mat-option value="3m">6 Meses</mat-option>
+        <mat-option value="2m">7 Meses</mat-option>
+        <mat-option value="3m">8 Meses</mat-option>
+        <mat-option value="1m">9 Meses</mat-option>
+        <mat-option value="2m">10 Meses</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

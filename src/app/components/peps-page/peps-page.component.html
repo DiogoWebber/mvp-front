@@ -1,1 +1,55 @@
-<p>peps-page works!</p>
+<h1>PEPS Page</h1>
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" matSort>
+
+    <!-- CPF Column -->
+    <ng-container matColumnDef="documentValue">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> CPF </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-expansion-panel hideToggle [expanded]="expandedElement === element" 
+        (opened)="expandedElement = element" (closed)="expandedElement = null">
+          <mat-expansion-panel-header>
+              <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
+              <span>{{element.cpf}}</span>
+          </mat-expansion-panel-header>
+          <div>
+            <p>Código do Órgão: {{element.codOrgao}}</p>
+            <p>Sigla da Função: {{element.siglaFuncao}}</p>
+            <p>Nível da Função: {{element.nivelFuncao}}</p>
+            <p>Fim da Carência: {{element.dtFimCarencia | date}}</p>
+          </div>
+        </mat-expansion-panel>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Other Columns -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="funcao">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Função </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.siglaFuncao}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="orgao">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Órgão </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.nomeOrgao}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dtInicioExercicio">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Início do Exercício </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dtInicioExercicio | date}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dtFimExercicio">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Fim do Exercício </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dtFimExercicio | date}} </mat-cell>
+    </ng-container>
+
+    <!-- Main Row Definitions -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple></mat-row>
+  </mat-table>
+</div>

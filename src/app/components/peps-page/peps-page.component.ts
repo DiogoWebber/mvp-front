@@ -1,22 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { DataService } from './../../data-service.service';
 
 @Component({
   selector: 'app-peps-page',
   templateUrl: './peps-page.component.html',
   styleUrls: ['./peps-page.component.css']
 })
-export class PepsPageComponent implements OnInit {
-  data: any; // Altere para o tipo correto conforme o seu modelo
+export class PepsPageComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['documentValue', 'nome', 'funcao', 'orgao', 'dtInicioExercicio', 'dtFimExercicio'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  expandedElement: any | null = null;
 
-  constructor(private route: ActivatedRoute) { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params['data']) {
-        this.data = JSON.parse(params['data']);
-        console.log('Dados na página de resultados:', this.data);
-      }
-    });
+    const data = this.dataService.getApiData();
+    this.dataSource.data = data;
+
+    // No need to configure paginator and sort here
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }
