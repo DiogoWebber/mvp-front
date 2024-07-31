@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { PepsModel } from './model/peps.model';
+import { Observable, of } from 'rxjs'; // Adicione esta linha
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private dialogData: any | null = null;
-  private apiData: any | null = null;
+  private apiData: PepsModel[] = []; // Ajuste o tipo conforme necessário
 
   setDialogData(data: any): void {
     this.dialogData = data;
@@ -19,15 +21,13 @@ export class DataService {
     this.dialogData = null;
   }
 
-  setApiData(data: any): void {
+  setApiData(data: PepsModel[]): void {
     this.apiData = data;
   }
 
-  getApiData(): any | null {
-    return this.apiData;
+  getApiData(): Observable<PepsModel[]> {
+    // Retorna um Observable com os dados
+    return of(this.apiData);
   }
-
-  clearApiData(): void {
-    this.apiData = null;
-  }
+  
 }

@@ -1,77 +1,62 @@
-.example-container {
-  display: flex;
-  flex-direction: column;
-  max-width: 1100px; /* Ajuste conforme necessário */
-  margin: 0 auto;
-  align-items: flex-start; /* Alinha os itens ao início do contêiner */
+table {
+  width: 100%;
+  margin-top: 60px;
 }
 
-.mat-elevation-z8 {
-  margin-top: 15px;
-  width: 100%; /* Para alinhar a tabela ao centro */
+tr.example-detail-row {
+  height: 0;
 }
 
-
-.mat-header-cell, .mat-cell {
-  padding-left: 0; 
-  text-align: left; 
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
 }
 
-.mat-header-cell {
-  padding-left: 25px; /* Adiciona padding à esquerda para deslocar um pouco para a direita */
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
 }
 
-.mat-header-row, .mat-row {
-  display: flex;
-  justify-content: flex-start; /* Garante que as linhas estejam alinhadas ao início */
-}
-
-.example-element-row {
-  transition: all 0.3s ease;
+.example-element-row td {
+  border-bottom-width: 0;
 }
 
 .example-element-detail {
-  background-color: #f1f1f1;
-  display: table;
+  overflow: hidden;
+  background-color: #f5f5f5; /* Cor de fundo para destacar a expansão */
+  border-radius: 4px; /* Arredondamento das bordas */
+  padding: 10px; /* Espaçamento interno */
 }
 
-.mat-expansion-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.mat-icon {
-  cursor: pointer;
-  font-size: 24px;
-  vertical-align: middle;
-}
-
-.mat-cell {
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
   padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
 }
 
-.extra-info {
-  padding: 20px;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-top: 20px;
-  max-width: 250px; /* Tamanho menor para o painel de informações extras */
-  width: 100%; /* Para ocupar toda a largura disponível dentro do contêiner */
-  align-self: flex-start; /* Alinha o contêiner de informações extras ao início do contêiner pai */
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
 }
 
-.extra-info h2 {
-  margin-top: 0;
+.example-element-description {
+  padding: 16px;
 }
 
-.extra-info p {
-  margin: 5px 0;
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+.expanded-content {
+  display: flex;
+  flex-direction: column; /* Exibe as informações em colunas */
 }
 
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
+.expanded-content div {
+  margin-bottom: 8px; /* Espaçamento entre linhas de informações */
+}
+
+.example-expanded-row {
+  background-color: #e0e0e0; /* Cor de fundo para a linha expandida */
 }

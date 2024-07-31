@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog.component';
 import { PepsModel } from './../../model/peps.model';
 import { DataService } from './../../data-service.service';
+import { HeaderService } from 'src/app/components/template/header/header.service';
 
 @Component({
   selector: 'app-consulta',
@@ -18,8 +19,15 @@ export class ConsultaComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     private router: Router,
-    private dataService: DataService
-  ) { }
+    private dataService: DataService,
+    private headerService: HeaderService
+  ) {
+    this.headerService.headerData = {
+      title: 'Faça uma busca',
+      icon: 'search',
+      routeUrl: ''
+    };
+  }
 
   ngOnInit(): void {
   }
@@ -37,14 +45,16 @@ export class ConsultaComponent implements OnInit {
   }
 
   private consultarPeps(cpf: string): void {
-    const url = `${this.apiUrl}/${encodeURIComponent(cpf)}`; 
-    this.http.get<PepsModel[]>(url).subscribe(data => {
-      console.log('Dados recebidos da API:', data); 
-      this.dataService.setApiData(data);
-      this.router.navigate(['/peps']);
-    }, error => {
-      console.error('Erro ao buscar dados da API', error);
+    const url = `${this.apiUrl}/${encodeURIComponent(cpf)}`;
+    this.http.get<PepsModel[]>(url).subscribe({
+      next: (data: PepsModel[]) => {
+        console.log('Dados recebidos da API:', data);
+        this.dataService.setApiData(data);
+        this.router.navigate(['/peps']);
+      },
+      error: (error: any) => {
+        console.error('Erro ao buscar dados da API', error);
+      }
     });
   }
-  
 }

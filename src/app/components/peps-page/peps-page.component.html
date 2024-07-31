@@ -1,61 +1,67 @@
-<h1>PEPS Page</h1>
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <!-- Definição das colunas principais -->
+  <ng-container matColumnDef="cpf">
+    <th mat-header-cell *matHeaderCellDef> CPF </th>
+    <td mat-cell *matCellDef="let element"> {{element.cpf}} </td>
+  </ng-container>
 
-<div class="example-container">
-  <div class="mat-elevation-z8">
-    <mat-table [dataSource]="dataSource" matSort>
-      <!-- CPF Column -->
-      <ng-container matColumnDef="documentValue">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> CPF </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.cpf}} </mat-cell>
-      </ng-container>
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef> Nome </th>
+    <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+  </ng-container>
 
-      <!-- Other Columns -->
-      <ng-container matColumnDef="nome">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
-      </ng-container>
+  <ng-container matColumnDef="descricaoFuncao">
+    <th mat-header-cell *matHeaderCellDef> Descrição Função </th>
+    <td mat-cell *matCellDef="let element"> {{element.descricaoFuncao}} </td>
+  </ng-container>
 
-      <ng-container matColumnDef="funcao">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Função </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.siglaFuncao}} </mat-cell>
-      </ng-container>
+  <ng-container matColumnDef="nomeOrgao">
+    <th mat-header-cell *matHeaderCellDef> Órgão </th>
+    <td mat-cell *matCellDef="let element"> {{element.nomeOrgao}} </td>
+  </ng-container>
 
-      <ng-container matColumnDef="orgao">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Órgão </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.nomeOrgao}} </mat-cell>
-      </ng-container>
+  <ng-container matColumnDef="dtInicioExercicio">
+    <th mat-header-cell *matHeaderCellDef> Início Exercício </th>
+    <td mat-cell *matCellDef="let element"> {{element.dtInicioExercicio | date}} </td>
+  </ng-container>
 
-      <ng-container matColumnDef="dtInicioExercicio">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Início do Exercício </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.dtInicioExercicio | date}} </mat-cell>
-      </ng-container>
+  <ng-container matColumnDef="dtFimExercicio">
+    <th mat-header-cell *matHeaderCellDef> Fim Exercício </th>
+    <td mat-cell *matCellDef="let element"> {{element.dtFimExercicio | date}} </td>
+  </ng-container>
 
-      <ng-container matColumnDef="dtFimExercicio">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Fim do Exercício </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.dtFimExercicio | date}} </mat-cell>
-      </ng-container>
+  <!-- Coluna de ações (expandir/colapsar) -->
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef> Ações </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button aria-label="expand row" (click)="toggleExtraInfo(element); $event.stopPropagation()">
+        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="toggleExtraInfo(element)"> 
-            <mat-icon>{{expandedElement === element ? 'expand_less' : 'expand_more'}}</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
+  <!-- Coluna para detalhes expandidos -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div class="expanded-content">
+          <div><strong>Código Órgão:</strong> {{element.codOrgao}}</div>
+          <div><strong>Sigla Função:</strong> {{element.siglaFuncao}}</div>
+          <div><strong>Nível Função:</strong> {{element.nivelFuncao}}</div>
+          <div><strong>Fim Carência:</strong> {{element.dtFimCarencia | date}}</div>
+        </div>
+      </div>
+    </td>
+  </ng-container>
 
-      <!-- Main Row Definitions -->
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple></mat-row>
-    </mat-table>
-  </div>
-
-  <div *ngIf="expandedElement" class="extra-info">
-    <h2>Informações extras</h2>
-    <p><strong>Código do Órgão:</strong> {{expandedElement.codOrgao}}</p>
-    <p><strong>Sigla da Função:</strong> {{expandedElement.siglaFuncao}}</p>
-    <p><strong>Nível da Função:</strong> {{expandedElement.nivelFuncao}}</p>
-    <p><strong>Fim da Carência:</strong> {{expandedElement.dtFimCarencia | date}}</p>
-  </div>
-</div>
+  <!-- Linhas do cabeçalho e do corpo da tabela -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="toggleExtraInfo(element)">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>

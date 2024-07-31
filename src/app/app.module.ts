@@ -46,7 +46,7 @@ registerLocaleData(localePt);
     HomeComponent,
     ConsultaComponent,
     ConsultaDialogComponent,
-    PepsPageComponent,
+    PepsPageComponent
   ],
   imports: [
     BrowserModule,
