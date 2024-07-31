@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { DataService } from './../../data-service.service';
 import { PepsModel } from './../../model/peps.model';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-
+import { HeaderService } from '../template/header/header.service';
 @Component({
   selector: 'app-peps-page',
   templateUrl: './peps-page.component.html',
@@ -39,7 +39,14 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,  
+    private headerService: HeaderService
+  ) {
+    this.headerService.headerData = {
+      title: 'Poder Executivo Federal',
+      icon: '',
+      routeUrl: ''
+    }; }
 
   ngOnInit(): void {
     this.dataService.getApiData().subscribe({

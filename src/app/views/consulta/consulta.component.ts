@@ -23,7 +23,7 @@ export class ConsultaComponent implements OnInit {
     private headerService: HeaderService
   ) {
     this.headerService.headerData = {
-      title: 'Faça uma busca',
+      title: 'Consultas',
       icon: 'search',
       routeUrl: ''
     };
