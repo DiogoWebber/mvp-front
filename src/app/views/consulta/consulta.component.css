@@ -1,3 +1,18 @@
-button {
-    margin-top: 60px; /* Ajuste o valor conforme necessário */
+/* src/app/views/consulta/consulta.component.css */
+.mat-elevation-z8 {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.mat-elevation-z8 table {
+  flex: 1;
+  overflow: auto; /* Ensure table content is scrollable if needed */
+}
+
+.button-container {
+  margin-top: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
 }

@@ -1,19 +1,26 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HeaderComponent } from './components/template/header/header.component';
 import { FooterComponent } from './components/template/footer/footer.component';
 import { NavComponent } from './components/template/nav/nav.component';
+import { HomeComponent } from './views/home/home.component';
+import { ConsultaComponent } from './views/consulta/consulta.component';
+import { ConsultaDialogComponent } from './consulta-dialog/consulta-dialog.component';
+import { PepsPageComponent } from './components/peps-page/peps-page.component';
+
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
@@ -22,19 +29,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'; // Para suporte a DatePicker
-
-import localePt from '@angular/common/locales/pt';
-import { registerLocaleData } from '@angular/common';
-import { HomeComponent } from './views/home/home.component';
-import { ConsultaComponent } from './views/consulta/consulta.component';
-import { ConsultaDialogComponent } from './consulta-dialog/consulta-dialog.component';
-import { PepsPageComponent } from './components/peps-page/peps-page.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
+import { NgxMaskModule } from 'ngx-mask';
 
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
 registerLocaleData(localePt);
 
 @NgModule({
@@ -52,14 +54,17 @@ registerLocaleData(localePt);
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    NgxMaskModule.forRoot(),
+    
+    // Angular Material Modules
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
     MatSnackBarModule,
-    HttpClientModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
@@ -69,7 +74,6 @@ registerLocaleData(localePt);
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxMaskModule.forRoot(),
     MatExpansionModule,
     MatIconModule
   ],

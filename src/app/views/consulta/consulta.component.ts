@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog.component';
-import { PepsModel } from './../../model/peps.model';
-import { DataService } from './../../data-service.service';
+import { ConsultaService } from './consulta.service';
+import { SearchHistory } from 'src/app/model/search-history.model';
 import { HeaderService } from 'src/app/components/template/header/header.service';
 
 @Component({
@@ -12,14 +14,17 @@ import { HeaderService } from 'src/app/components/template/header/header.service
   templateUrl: './consulta.component.html',
   styleUrls: ['./consulta.component.css']
 })
-export class ConsultaComponent implements OnInit {
-  private apiUrl = 'https://localhost:7121/api/v1/peps/busca'; 
+export class ConsultaComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['documentType', 'documentValue', 'selectedDate', 'researchPeriod', 'actions'];
+  dataSource: MatTableDataSource<SearchHistory> = new MatTableDataSource<SearchHistory>([]);
+  
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // Use ! para indicar que será inicializado
+  @ViewChild(MatSort) sort!: MatSort; // Use ! para indicar que será inicializado
 
   constructor(
     private dialog: MatDialog,
-    private http: HttpClient,
     private router: Router,
-    private dataService: DataService,
+    private consultaService: ConsultaService,
     private headerService: HeaderService
   ) {
     this.headerService.headerData = {
@@ -30,31 +35,27 @@ export class ConsultaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.consultaService.getSearchHistory().subscribe(history => {
+      this.dataSource.data = history;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
   }
 
   navigateToConsultaCreate(): void {
     const dialogRef = this.dialog.open(ConsultaDialogComponent, {
       width: '500px'
     });
-
-    dialogRef.afterClosed().subscribe(cpf => {
-      if (cpf) {
-        this.consultarPeps(cpf);
-      }
-    });
   }
 
-  private consultarPeps(cpf: string): void {
-    const url = `${this.apiUrl}/${encodeURIComponent(cpf)}`;
-    this.http.get<PepsModel[]>(url).subscribe({
-      next: (data: PepsModel[]) => {
-        console.log('Dados recebidos da API:', data);
-        this.dataService.setApiData(data);
-        this.router.navigate(['/peps']);
-      },
-      error: (error: any) => {
-        console.error('Erro ao buscar dados da API', error);
-      }
-    });
+  performSearchFromHistory(history: SearchHistory): void {
+    this.router.navigate(['/peps'], { queryParams: { cpf: history.documentValue } });
   }
 }

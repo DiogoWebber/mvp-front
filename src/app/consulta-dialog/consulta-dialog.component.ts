@@ -1,7 +1,9 @@
-import { DataService } from './../data-service.service';
+// src/app/consulta-dialog/consulta-dialog.component.ts
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ConsultaService } from '../views/consulta/consulta.service';
+import { SearchHistory } from '../model/search-history.model';
 
 @Component({
   selector: 'app-consulta-dialog',
@@ -16,21 +18,30 @@ export class ConsultaDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
-    private dataService: DataService,
+    private consultaService: ConsultaService,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   onSubmit(): void {
-    const dialogData = {
+    const dialogData: SearchHistory = {
       documentType: this.documentType,
       documentValue: this.documentValue,
       selectedDate: this.selectedDate,
       researchPeriod: this.researchPeriod
     };
 
-    this.dataService.setDialogData(dialogData);
-    this.dialogRef.close(dialogData.documentValue);
+    this.consultaService.addSearchToHistory(dialogData);
+    this.consultaService.getPepsByCpf(dialogData.documentValue).subscribe({
+      next: (data) => {
+        console.log('Dados recebidos da API:', data);
+        this.router.navigate(['/peps'], { queryParams: { cpf: dialogData.documentValue } });
+        this.dialogRef.close(dialogData.documentValue);
+      },
+      error: (error) => {
+        console.error('Erro ao buscar dados da API', error);
+      }
+    });
   }
 
   onClose(): void {

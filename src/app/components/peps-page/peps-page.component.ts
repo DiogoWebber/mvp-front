@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { DataService } from './../../data-service.service';
 import { PepsModel } from './../../model/peps.model';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HeaderService } from '../template/header/header.service';
+import { ConsultaService } from 'src/app/views/consulta/consulta.service';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-peps-page',
   templateUrl: './peps-page.component.html',
@@ -39,22 +41,30 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dataService: DataService,  
-    private headerService: HeaderService
+  constructor(
+    private consultaService: ConsultaService,  
+    private headerService: HeaderService,
+    private route: ActivatedRoute
   ) {
     this.headerService.headerData = {
       title: 'Poder Executivo Federal',
       icon: '',
       routeUrl: ''
-    }; }
+    };
+  }
 
   ngOnInit(): void {
-    this.dataService.getApiData().subscribe({
-      next: (data: PepsModel[]) => {
-        this.dataSource.data = data;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar dados:', err);
+    this.route.queryParams.subscribe(params => {
+      const cpf = params['cpf'];
+      if (cpf) {
+        this.consultaService.getPepsByCpf(cpf).subscribe({
+          next: (data: PepsModel[]) => {
+            this.dataSource.data = data;
+          },
+          error: (err) => {
+            console.error('Erro ao buscar dados:', err);
+          }
+        });
       }
     });
   }
