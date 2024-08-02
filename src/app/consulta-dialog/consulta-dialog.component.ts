@@ -1,5 +1,4 @@
-// src/app/consulta-dialog/consulta-dialog.component.ts
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConsultaService } from '../views/consulta/consulta.service';
@@ -18,8 +17,10 @@ export class ConsultaDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
-    private consultaService: ConsultaService,
     private router: Router,
+    private consultaService: ConsultaService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -32,19 +33,45 @@ export class ConsultaDialogComponent {
     };
 
     this.consultaService.addSearchToHistory(dialogData);
-    this.consultaService.getPepsByCpf(dialogData.documentValue).subscribe({
-      next: (data) => {
-        console.log('Dados recebidos da API:', data);
-        this.router.navigate(['/peps'], { queryParams: { cpf: dialogData.documentValue } });
-        this.dialogRef.close(dialogData.documentValue);
-      },
-      error: (error) => {
-        console.error('Erro ao buscar dados da API', error);
-      }
-    });
+    
+    if (dialogData.documentType === 'cpf') {
+      this.consultaService.getPepsByCpf(dialogData.documentValue).subscribe({
+        next: (data) => {
+          console.log('Dados recebidos da API:', data);
+          this.router.navigate(['/peps'], { queryParams: { cpf: dialogData.documentValue } });
+          this.dialogRef.close(dialogData.documentValue);
+        },
+        error: (error) => {
+          console.error('Erro ao buscar dados da API', error);
+        }
+      });
+    } else if (dialogData.documentType === 'cnpj') {
+      this.consultaService.getCepimByCnpj(dialogData.documentValue).subscribe({
+        next: (data) => {
+          console.log('Dados recebidos da API:', data);
+          this.router.navigate(['/cepim'], { queryParams: { cnpj: dialogData.documentValue } });
+          this.dialogRef.close(dialogData.documentValue);
+        },
+        error: (error) => {
+          console.error('Erro ao buscar dados da API', error);
+        }
+      });
+    }
   }
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  onDocumentTypeChange(newType: string): void {
+    this.documentType = newType;
+    this.ngZone.run(() => {
+      this.clearDocumentValue();
+    });
+    this.cdr.detectChanges();
+  }
+
+  clearDocumentValue(): void {
+    this.documentValue = '';
   }
 }

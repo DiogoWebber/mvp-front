@@ -18,8 +18,8 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['documentType', 'documentValue', 'selectedDate', 'researchPeriod', 'actions'];
   dataSource: MatTableDataSource<SearchHistory> = new MatTableDataSource<SearchHistory>([]);
   
-  @ViewChild(MatPaginator) paginator!: MatPaginator; // Use ! para indicar que será inicializado
-  @ViewChild(MatSort) sort!: MatSort; // Use ! para indicar que será inicializado
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private dialog: MatDialog,
@@ -56,6 +56,19 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   }
 
   performSearchFromHistory(history: SearchHistory): void {
-    this.router.navigate(['/peps'], { queryParams: { cpf: history.documentValue } });
+    if (history.documentType === 'cpf') {
+      this.router.navigate(['/peps'], { queryParams: { cpf: history.documentValue } });
+    } else if (history.documentType === 'cnpj') {
+      this.router.navigate(['/cepim'], { queryParams: { cnpj: history.documentValue } });
+    }
+  }
+
+  formatDocumentValue(value: string, type: string): string {
+    if (type === 'cpf') {
+      return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    } else if (type === 'cnpj') {
+      return value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    }
+    return value;
   }
 }

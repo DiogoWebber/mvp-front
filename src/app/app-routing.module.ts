@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from './views/home/home.component'
 import { ConsultaComponent } from './views/consulta/consulta.component';
 import { PepsPageComponent } from './components/peps-page/peps-page.component';
+import { CepimPageComponent } from './components/cepim-page/cepim-page.component';
 const routes: Routes = [{
   path: "",
   component: HomeComponent
@@ -12,6 +13,9 @@ const routes: Routes = [{
 },{
   path: "peps",
   component: PepsPageComponent
+},{
+  path: 'cepim',
+  component: CepimPageComponent
 }];
 
 @NgModule({

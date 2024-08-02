@@ -1,0 +1,98 @@
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+    <!-- Definição das colunas principais -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="dataReferencia">
+      <th mat-header-cell *matHeaderCellDef> Data Referência </th>
+      <td mat-cell *matCellDef="let element"> {{element.dataReferencia | date}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="motivo">
+      <th mat-header-cell *matHeaderCellDef> Motivo </th>
+      <td mat-cell *matCellDef="let element"> {{element.motivo}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="orgaoSuperior">
+      <th mat-header-cell *matHeaderCellDef> Órgão Superior </th>
+      <td mat-cell *matCellDef="let element"> {{element.orgaoSuperior?.nome}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="pessoaJuridica">
+      <th mat-header-cell *matHeaderCellDef> Pessoa Jurídica </th>
+      <td mat-cell *matCellDef="let element"> {{element.pessoaJuridica?.nome}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="convenio">
+      <th mat-header-cell *matHeaderCellDef> Convênio </th>
+      <td mat-cell *matCellDef="let element"> {{element.convenio?.codigo}} </td>
+    </ng-container>
+  
+    <!-- Coluna de ações (expandir/colapsar) -->
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef> Ações </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row" (click)="toggleExtraInfo(element); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <!-- Coluna para detalhes expandidos -->
+   <!-- Coluna para detalhes expandidos -->
+<ng-container matColumnDef="expandedDetail">
+  <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+    <div class="example-element-detail"
+         [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+      <div class="details-container">
+        <div class="detail-section">
+          <h3>Órgão Superior</h3>
+          <div><strong>Nome:</strong> {{element.orgaoSuperior?.nome}}</div>
+          <div><strong>Código SIAFI:</strong> {{element.orgaoSuperior?.codigoSIAFI}}</div>
+          <div><strong>CNPJ:</strong> {{element.orgaoSuperior?.cnpj}}</div>
+          <div><strong>Sigla:</strong> {{element.orgaoSuperior?.sigla}}</div>
+          <div><strong>Descrição do Poder:</strong> {{element.orgaoSuperior?.descricaoPoder}}</div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Órgão Máximo</h3>
+          <div><strong>Código:</strong> {{element.orgaoSuperior?.orgaoMaximo?.codigo}}</div>
+          <div><strong>Sigla:</strong> {{element.orgaoSuperior?.orgaoMaximo?.sigla}}</div>
+          <div><strong>Nome:</strong> {{element.orgaoSuperior?.orgaoMaximo?.nome}}</div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Pessoa Jurídica</h3>
+          <div><strong>CPF Formatado:</strong> {{element.pessoaJuridica?.cpfFormatado}}</div>
+          <div><strong>CNPJ Formatado:</strong> {{element.pessoaJuridica?.cnpjFormatado}}</div>
+          <div><strong>Nome:</strong> {{element.pessoaJuridica?.nome}}</div>
+          <div><strong>Razão Social:</strong> {{element.pessoaJuridica?.razaoSocialReceita}}</div>
+          <div><strong>Nome Fantasia:</strong> {{element.pessoaJuridica?.nomeFantasiaReceita}}</div>
+          <div><strong>Tipo:</strong> {{element.pessoaJuridica?.tipo}}</div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Convênio</h3>
+          <div><strong>Código:</strong> {{element.convenio?.codigo}}</div>
+          <div><strong>Objeto:</strong> {{element.convenio?.objeto}}</div>
+          <div><strong>Número:</strong> {{element.convenio?.numero}}</div>
+        </div>
+      </div>
+    </div>
+  </td>
+</ng-container>
+
+  
+    <!-- Linhas do cabeçalho e do corpo da tabela -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="toggleExtraInfo(element)">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+  
