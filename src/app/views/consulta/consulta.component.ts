@@ -53,7 +53,22 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(ConsultaDialogComponent, {
       width: '500px'
     });
+  
+    dialogRef.afterClosed().subscribe((result: SearchHistory | undefined) => {
+      if (result) {
+        this.consultaService.addSearchToHistory(result); // Adiciona ao histórico
+
+
+
+        if (result.documentType === 'cpf') {
+          this.router.navigate(['/peps'], { queryParams: { cpf: result.documentValue } });
+        } else if (result.documentType === 'cnpj') {
+          this.router.navigate(['/cepim'], { queryParams: { cnpj: result.documentValue } });
+        }
+      }
+    });
   }
+  
 
   performSearchFromHistory(history: SearchHistory): void {
     if (history.documentType === 'cpf') {
@@ -71,4 +86,6 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
     }
     return value;
   }
+
+ 
 }

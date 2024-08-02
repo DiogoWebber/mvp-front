@@ -1,7 +1,6 @@
 import { Component, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConsultaService } from '../views/consulta/consulta.service';
 import { SearchHistory } from '../model/search-history.model';
 
 @Component({
@@ -18,7 +17,6 @@ export class ConsultaDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
     private router: Router,
-    private consultaService: ConsultaService,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -31,32 +29,8 @@ export class ConsultaDialogComponent {
       selectedDate: this.selectedDate,
       researchPeriod: this.researchPeriod
     };
-
-    this.consultaService.addSearchToHistory(dialogData);
-    
-    if (dialogData.documentType === 'cpf') {
-      this.consultaService.getPepsByCpf(dialogData.documentValue).subscribe({
-        next: (data) => {
-          console.log('Dados recebidos da API:', data);
-          this.router.navigate(['/peps'], { queryParams: { cpf: dialogData.documentValue } });
-          this.dialogRef.close(dialogData.documentValue);
-        },
-        error: (error) => {
-          console.error('Erro ao buscar dados da API', error);
-        }
-      });
-    } else if (dialogData.documentType === 'cnpj') {
-      this.consultaService.getCepimByCnpj(dialogData.documentValue).subscribe({
-        next: (data) => {
-          console.log('Dados recebidos da API:', data);
-          this.router.navigate(['/cepim'], { queryParams: { cnpj: dialogData.documentValue } });
-          this.dialogRef.close(dialogData.documentValue);
-        },
-        error: (error) => {
-          console.error('Erro ao buscar dados da API', error);
-        }
-      });
-    }
+    console.log('Dados do diálogo:', dialogData); // Adicione um log para verificar os dados
+    this.dialogRef.close(dialogData); // Passa os dados ao fechar o diálogo
   }
 
   onClose(): void {
