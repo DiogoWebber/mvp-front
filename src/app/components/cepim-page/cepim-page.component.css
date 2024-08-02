@@ -1,9 +1,15 @@
 table {
-  margin-top: 60px;
   border-collapse: collapse; /* Remove espaços entre as bordas das células */
   width: 100%; /* Garante que a tabela ocupe toda a largura disponível */
 }
-
+.table-container {
+  margin-top: 70px; /* Ajuste o espaço acima da tabela se necessário */
+}
+.table-title {
+  font-weight: bold; /* Defina o peso da fonte como negrito */
+  margin-bottom: 10px; /* Adicione espaço abaixo do título */
+  color: #333; /* Ajuste a cor do título conforme necessário */
+}
 th, td {
   padding: 8px; /* Ajuste o padding conforme necessário */
 

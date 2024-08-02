@@ -1,6 +1,14 @@
-table {
+table{
   width: 100%;
-  margin-top: 60px;
+}
+.table-container {
+  margin-top: 70px; /* Ajuste o espaço acima da tabela se necessário */
+}
+.table-title {
+  font-size: 24px; /* Ajuste o tamanho da fonte conforme necessário */
+  font-weight: bold; /* Defina o peso da fonte como negrito */
+  margin-bottom: 10px; /* Adicione espaço abaixo do título */
+  color: #333; /* Ajuste a cor do título conforme necessário */
 }
 
 tr.example-detail-row {

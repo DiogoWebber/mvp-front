@@ -1,4 +1,7 @@
+<div class="table-container">
+  <h2 class="table-title">PEPS</h2>
 <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+  
   <!-- Definição das colunas principais -->
   <ng-container matColumnDef="cpf">
     <th mat-header-cell *matHeaderCellDef> CPF </th>
@@ -65,3 +68,4 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
+</div>

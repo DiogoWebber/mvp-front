@@ -1,3 +1,7 @@
+
+<div class="table-container">
+  <h2 class="table-title">CEPIM</h2>
+
 <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" *ngIf="dataSource.data.length > 0">
     <!-- Definição das colunas principais -->
     <ng-container matColumnDef="id">
@@ -98,4 +102,4 @@
   <div class="resultado" *ngIf="dataSource.data.length === 0">
     Sem Resultado
   </div>  
-  
+</div>

@@ -55,7 +55,7 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const cpf = params['cpf'];
+      const cpf = params['documentValue'];
       if (cpf) {
         this.consultaService.getPepsByCpf(cpf).subscribe({
           next: (data: PepsModel[]) => {
@@ -68,6 +68,33 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
       }
     });
   }
+  // ngOnInit(): void {
+  //   this.route.queryParams.subscribe(params => {
+  //     const cpf = params['documentValue'];
+  //     if (cpf) {
+  //       this.consultaService.getPepsByCpf(cpf).subscribe({
+  //         next: (data: PepsModel[]) => {
+  //           // Transformar data em uma string JSON
+  //           const dataString = JSON.stringify(data);
+  //           console.log('Dados em formato de string:', dataString);
+  
+  //           // Se precisar continuar usando como dataSource
+  //           this.dataSource.data = data;
+  //         },
+  //         error: (err) => {
+  //           console.error('Erro ao buscar dados:', err);
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
+  
+  
+  
+
+
+
+
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
