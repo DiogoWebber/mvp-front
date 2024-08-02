@@ -57,9 +57,6 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result: SearchHistory | undefined) => {
       if (result) {
         this.consultaService.addSearchToHistory(result); // Adiciona ao histórico
-
-
-
         if (result.documentType === 'cpf') {
           this.router.navigate(['/peps'], { queryParams: { cpf: result.documentValue } });
         } else if (result.documentType === 'cnpj') {

@@ -10,7 +10,7 @@ import { SearchHistory } from 'src/app/model/search-history.model';
 })
 export class ConsultaService {
   private pepsApiUrl = 'https://localhost:7121/api/v1/peps/busca';
-  private cepimApiUrl = 'https://localhost:7121/api/v1/cepim/busca'; // URL da API para buscar dados do Cepim
+  private cepimApiUrl = 'https://localhost:7121/api/v1/cepim/busca';
   private searchHistory: BehaviorSubject<SearchHistory[]> = new BehaviorSubject<SearchHistory[]>([]);
 
   constructor(private http: HttpClient) { }

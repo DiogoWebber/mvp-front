@@ -1,6 +1,5 @@
 import { Component, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { SearchHistory } from '../model/search-history.model';
 
 @Component({
@@ -16,7 +15,6 @@ export class ConsultaDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     @Inject(MAT_DIALOG_DATA) public data: any
