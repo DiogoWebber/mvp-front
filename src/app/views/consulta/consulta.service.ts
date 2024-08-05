@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PepsModel } from 'src/app/model/peps.model';
 import { CepimModel } from 'src/app/model/cepim.model';
-import { SearchHistory } from 'src/app/model/search-history.model';
+import { DialogData } from 'src/app/model/dialog-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,12 @@ import { SearchHistory } from 'src/app/model/search-history.model';
 export class ConsultaService {
   private pepsApiUrl = 'https://localhost:7121/api/v1/peps/busca';
   private cepimApiUrl = 'https://localhost:7121/api/v1/cepim/busca';
-  private searchHistory: BehaviorSubject<SearchHistory[]> = new BehaviorSubject<SearchHistory[]>([]);
+  private searchHistory: BehaviorSubject<DialogData[]> = new BehaviorSubject<DialogData[]>([]);
 
   constructor(private http: HttpClient) { }
 
-  getPepsByCpf(cpf: string): Observable<PepsModel[]> {
-    const url = `${this.pepsApiUrl}/${encodeURIComponent(cpf)}`;
+  getPepsByCpf(pesquisa: DialogData): Observable<PepsModel[]> {
+    const url = `${this.pepsApiUrl}?Tipo=${pesquisa.tipo}&Documento=${pesquisa.documento}&Data=${pesquisa.data}&Periodo=${pesquisa.periodo}}`;
     return this.http.get<PepsModel[]>(url);
   }
 
@@ -25,11 +25,11 @@ export class ConsultaService {
     return this.http.get<CepimModel[]>(url);
   }
 
-  getSearchHistory(): Observable<SearchHistory[]> {
+  getSearchHistory(): Observable<DialogData[]> {
     return this.searchHistory.asObservable();
   }
 
-  addSearchToHistory(search: SearchHistory): void {
+  addSearchToHistory(search: DialogData): void {
     const currentHistory = this.searchHistory.getValue();
     this.searchHistory.next([...currentHistory, search]);
   }

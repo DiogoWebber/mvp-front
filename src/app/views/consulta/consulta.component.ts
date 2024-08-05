@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog.component';
 import { ConsultaService } from './consulta.service';
-import { SearchHistory } from 'src/app/model/search-history.model';
+import { DialogData } from 'src/app/model/dialog-data.model';
 import { HeaderService } from 'src/app/components/template/header/header.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { HeaderService } from 'src/app/components/template/header/header.service
 })
 export class ConsultaComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['documentType', 'documentValue', 'selectedDate', 'researchPeriod', 'actions'];
-  dataSource: MatTableDataSource<SearchHistory> = new MatTableDataSource<SearchHistory>([]);
+  dataSource: MatTableDataSource<DialogData> = new MatTableDataSource<DialogData>([]);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -55,20 +55,15 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
     });
   }
 
-  performSearchFromHistory(history: SearchHistory): void {
-    if (history.documentType === 'cpf') {
-      this.Router.navigate(['/peps'], { queryParams: { cpf: history.documentValue } });
-    } else if (history.documentType === 'cnpj') {
-      this.Router.navigate(['/cepim'], { queryParams: { cnpj: history.documentValue } });
-    }
+  performSearchFromHistory(history: DialogData): void {
+    
   }
 
-  formatDocumentValue(value: string, type: string): string {
-    if (type === 'cpf') {
-      return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    } else if (type === 'cnpj') {
-      return value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-    }
-    return value;
-  }
+  // performSearchFromHistory(history: DialogData): void {
+  //   if (history.tipo === 'cpf') {
+  //     this.Router.navigate(['/peps'], { queryParams: { cpf: history.documento } });
+  //   } else if (history.tipo === 'cnpj') {
+  //     this.Router.navigate(['/cepim'], { queryParams: { cnpj: history.documento } });
+  //   }
+  // }
 }

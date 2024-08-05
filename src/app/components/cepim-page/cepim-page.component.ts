@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { HeaderService } from '../template/header/header.service';
 import { ActivatedRoute } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DialogData } from 'src/app/model/dialog-data.model';
 
 @Component({
   selector: 'app-cepim-page',
@@ -54,9 +55,9 @@ export class CepimPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const cnpj = params['cnpj'];
-      if (cnpj) {
-        this.consultaService.getCepimByCnpj(cnpj).subscribe(data => {
+      const pesquisa = params as DialogData;
+      if (pesquisa) {
+        this.consultaService.getCepimByCnpj(pesquisa.documento).subscribe(data => {
           this.dataSource.data = data;
         });
       }

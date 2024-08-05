@@ -7,6 +7,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { HeaderService } from '../template/header/header.service';
 import { ConsultaService } from 'src/app/views/consulta/consulta.service';
 import { ActivatedRoute } from '@angular/router';
+import { DialogData } from 'src/app/model/dialog-data.model';
 
 @Component({
   selector: 'app-peps-page',
@@ -33,7 +34,7 @@ import { ActivatedRoute } from '@angular/router';
     ]),
   ]
 })
-export class PepsPageComponent implements OnInit, AfterViewInit {
+export class PepsPageComponent implements OnInit {
   displayedColumns: string[] = ['cpf', 'nome', 'descricaoFuncao', 'nomeOrgao', 'dtInicioExercicio', 'dtFimExercicio', 'expand'];
   dataSource = new MatTableDataSource<PepsModel>();
   expandedElement: PepsModel | null = null;
@@ -55,9 +56,9 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const cpf = params['documentValue'];
-      if (cpf) {
-        this.consultaService.getPepsByCpf(cpf).subscribe({
+      const pesquisa: DialogData = params as DialogData;
+      if (pesquisa) {
+        this.consultaService.getPepsByCpf(pesquisa).subscribe({
           next: (data: PepsModel[]) => {
             this.dataSource.data = data;
           },
@@ -67,47 +68,6 @@ export class PepsPageComponent implements OnInit, AfterViewInit {
         });
       }
     });
-  }
-  // ngOnInit(): void {
-  //   this.route.queryParams.subscribe(params => {
-  //     const cpf = params['documentValue'];
-  //     if (cpf) {
-  //       this.consultaService.getPepsByCpf(cpf).subscribe({
-  //         next: (data: PepsModel[]) => {
-  //           // Transformar data em uma string JSON
-  //           const dataString = JSON.stringify(data);
-  //           console.log('Dados em formato de string:', dataString);
-  
-  //           // Se precisar continuar usando como dataSource
-  //           this.dataSource.data = data;
-  //         },
-  //         error: (err) => {
-  //           console.error('Erro ao buscar dados:', err);
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
-  
-  
-  
-
-
-
-
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   toggleExtraInfo(element: PepsModel): void {

@@ -1,47 +1,45 @@
-import { Component, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { SearchHistory } from '../model/search-history.model';
-import { ConsultaService } from '../views/consulta/consulta.service';
+import { Component, Inject, ChangeDetectorRef, NgZone } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { DialogData } from "../model/dialog-data.model";
+import { formatDate } from "@angular/common";
 
 @Component({
-  selector: 'app-consulta-dialog',
-  templateUrl: './consulta-dialog.component.html',
-  styleUrls: ['./consulta-dialog.component.css']
+  selector: "app-consulta-dialog",
+  templateUrl: "./consulta-dialog.component.html",
+  styleUrls: ["./consulta-dialog.component.css"],
 })
 export class ConsultaDialogComponent {
-  documentType: string = ''; 
-  documentValue: string = '';
-  selectedDate: Date | null = null; 
-  researchPeriod: string = '';
+  documentType: string = "";
+  documentValue: string = "";
+  selectedDate: Date | null = null;
+  researchPeriod: string = "";
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
     private router: Router,
-    private consultaService: ConsultaService,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   onSubmit(): void {
-    const dialogData: SearchHistory = {
-      documentType: this.documentType,
-      documentValue: this.documentValue,
-      selectedDate: this.selectedDate,
-      researchPeriod: this.researchPeriod
+    const formatDateToString = (date: Date): string => {
+      return formatDate(date, 'dd-MM-yyyy', 'en-US');
     };
-    
-    // Adiciona ao histórico
-    this.consultaService.addSearchToHistory(dialogData);
-      // Redireciona após adicionar ao histórico
-      if (dialogData.documentType === 'cpf') {
-        this.router.navigate(['/peps'], { queryParams: { cpf: dialogData.documentValue } });
-      } else if (dialogData.documentType === 'cnpj') {
-        this.router.navigate(['/cepim'], { queryParams: { cnpj: dialogData.documentValue } });
-      }
-    ;
+
+    const dialogData: DialogData = {
+      tipo: this.documentType,
+      documento: this.documentValue,
+      data: formatDateToString(this.selectedDate!),
+      periodo: this.researchPeriod,
+    };
+
+    if (dialogData.tipo === "cpf") {
+      this.router.navigate(["/peps"], { queryParams: { ...dialogData } });
+    } else if (dialogData.tipo === "cnpj") {
+      this.router.navigate(["/cepim"], { queryParams: { ...dialogData } });
+    }
 
     this.dialogRef.close();
   }
@@ -59,6 +57,6 @@ export class ConsultaDialogComponent {
   }
 
   clearDocumentValue(): void {
-    this.documentValue = '';
+    this.documentValue = "";
   }
 }
