@@ -1,6 +1,6 @@
+import { Router } from '@angular/router';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,9 +23,9 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
 
   constructor(
     private dialog: MatDialog,
-    private router: Router,
     private consultaService: ConsultaService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private Router: Router
   ) {
     this.headerService.headerData = {
       title: 'Consultas',
@@ -50,28 +50,16 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   }
 
   navigateToConsultaCreate(): void {
-    const dialogRef = this.dialog.open(ConsultaDialogComponent, {
+    this.dialog.open(ConsultaDialogComponent, {
       width: '500px'
     });
-  
-    dialogRef.afterClosed().subscribe((result: SearchHistory | undefined) => {
-      if (result) {
-        this.consultaService.addSearchToHistory(result); // Adiciona ao histórico
-        if (result.documentType === 'cpf') {
-          this.router.navigate(['/peps'], { queryParams: {  ...result } });
-        } else if (result.documentType === 'cnpj') {
-          this.router.navigate(['/cepim'], { queryParams: { cnpj: result.documentValue } });
-        }
-      }
-    });
   }
-  
 
   performSearchFromHistory(history: SearchHistory): void {
     if (history.documentType === 'cpf') {
-      this.router.navigate(['/peps'], { queryParams: { cpf: history.documentValue } });
+      this.Router.navigate(['/peps'], { queryParams: { cpf: history.documentValue } });
     } else if (history.documentType === 'cnpj') {
-      this.router.navigate(['/cepim'], { queryParams: { cnpj: history.documentValue } });
+      this.Router.navigate(['/cepim'], { queryParams: { cnpj: history.documentValue } });
     }
   }
 
@@ -83,6 +71,4 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
     }
     return value;
   }
-
- 
 }

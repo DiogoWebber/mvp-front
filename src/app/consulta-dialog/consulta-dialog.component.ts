@@ -1,6 +1,8 @@
 import { Component, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { SearchHistory } from '../model/search-history.model';
+import { ConsultaService } from '../views/consulta/consulta.service';
 
 @Component({
   selector: 'app-consulta-dialog',
@@ -15,9 +17,12 @@ export class ConsultaDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ConsultaDialogComponent>,
+    private router: Router,
+    private consultaService: ConsultaService,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    
   ) { }
 
   onSubmit(): void {
@@ -27,8 +32,18 @@ export class ConsultaDialogComponent {
       selectedDate: this.selectedDate,
       researchPeriod: this.researchPeriod
     };
-    console.log('Dados do diálogo:', dialogData); // Adicione um log para verificar os dados
-    this.dialogRef.close(dialogData); // Passa os dados ao fechar o diálogo
+    
+    // Adiciona ao histórico
+    this.consultaService.addSearchToHistory(dialogData);
+      // Redireciona após adicionar ao histórico
+      if (dialogData.documentType === 'cpf') {
+        this.router.navigate(['/peps'], { queryParams: { cpf: dialogData.documentValue } });
+      } else if (dialogData.documentType === 'cnpj') {
+        this.router.navigate(['/cepim'], { queryParams: { cnpj: dialogData.documentValue } });
+      }
+    ;
+
+    this.dialogRef.close();
   }
 
   onClose(): void {
