@@ -15,7 +15,7 @@ import { HeaderService } from 'src/app/components/template/header/header.service
   styleUrls: ['./consulta.component.css']
 })
 export class ConsultaComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['documentType', 'documentValue', 'selectedDate', 'researchPeriod', 'actions'];
+  displayedColumns: string[] = ['user', 'dataConsulta', 'documentType', 'documentValue', 'selectedDate', 'researchPeriod', 'actions'];
   dataSource: MatTableDataSource<DialogData> = new MatTableDataSource<DialogData>([]);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -56,8 +56,13 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   }
 
   performSearchFromHistory(history: DialogData): void {
-    
+    this.Router.navigate(['/peps'], { queryParams: { cpf: history.documento } });
   }
+
+  // performSearchFromHistory(history: DialogData): void {
+  //   this.Router.navigate(['/peps'], { queryParams: { id: itemHistorico.id } });
+  // }
+
 
   // performSearchFromHistory(history: DialogData): void {
   //   if (history.tipo === 'cpf') {

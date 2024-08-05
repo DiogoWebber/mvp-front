@@ -1,5 +1,17 @@
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
+     
+    <!-- Tipo de Documento Column -->
+     <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuário </th>
+      <td mat-cell *matCellDef="let history"> {{history.documentType}} </td>
+    </ng-container>
+
+    <!-- Data Selecionada Column -->
+    <ng-container matColumnDef="dataConsulta">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Data da Consulta </th>
+      <td mat-cell *matCellDef="let history"> {{history.selectedDate | date}} </td>
+    </ng-container>
 
     <!-- Tipo de Documento Column -->
     <ng-container matColumnDef="documentType">
