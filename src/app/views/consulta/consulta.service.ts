@@ -11,6 +11,7 @@ import { DialogData } from 'src/app/model/dialog-data.model';
 export class ConsultaService {
   private pepsApiUrl = 'https://localhost:7121/api/v1/peps/busca';
   private cepimApiUrl = 'https://localhost:7121/api/v1/cepim/busca';
+  private baseUrl = 'http://localhost:5000/api/v1/historico'; // URL do backend
   private searchHistory: BehaviorSubject<DialogData[]> = new BehaviorSubject<DialogData[]>([]);
 
   constructor(private http: HttpClient) { }
@@ -26,11 +27,6 @@ export class ConsultaService {
   }
 
   getSearchHistory(): Observable<DialogData[]> {
-    return this.searchHistory.asObservable();
-  }
-
-  addSearchToHistory(search: DialogData): void {
-    const currentHistory = this.searchHistory.getValue();
-    this.searchHistory.next([...currentHistory, search]);
+    return this.http.get<DialogData[]>(`${this.baseUrl}/historico`);
   }
 }

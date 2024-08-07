@@ -56,19 +56,11 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   }
 
   performSearchFromHistory(history: DialogData): void {
-    this.Router.navigate(['/peps'], { queryParams: { cpf: history.documento } });
+    if (history.tipo === 'cpf') {
+      this.Router.navigate(['/peps'], { queryParams: { cpf: history.documento } });
+    } else if (history.tipo === 'cnpj') {
+      this.Router.navigate(['/cepim'], { queryParams: { cnpj: history.documento } });
+    }
   }
 
-  // performSearchFromHistory(history: DialogData): void {
-  //   this.Router.navigate(['/peps'], { queryParams: { id: itemHistorico.id } });
-  // }
-
-
-  // performSearchFromHistory(history: DialogData): void {
-  //   if (history.tipo === 'cpf') {
-  //     this.Router.navigate(['/peps'], { queryParams: { cpf: history.documento } });
-  //   } else if (history.tipo === 'cnpj') {
-  //     this.Router.navigate(['/cepim'], { queryParams: { cnpj: history.documento } });
-  //   }
-  // }
 }
