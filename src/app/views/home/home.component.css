@@ -4,9 +4,15 @@
 }
 
 .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 16px; /* Adiciona espaço abaixo do título */
 }
 
 .subtitle {
-    margin-top: 8px; /* Adiciona espaço acima do subtítulo, se necessário */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
 }

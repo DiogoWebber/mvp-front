@@ -1,12 +1,11 @@
-import { Router } from '@angular/router';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog.component';
 import { ConsultaService } from './consulta.service';
-import { DialogData } from 'src/app/model/dialog-data.model';
+import { HistoricoModel } from 'src/app/model/historicoModel';
 import { HeaderService } from 'src/app/components/template/header/header.service';
 
 @Component({
@@ -15,8 +14,8 @@ import { HeaderService } from 'src/app/components/template/header/header.service
   styleUrls: ['./consulta.component.css']
 })
 export class ConsultaComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['user', 'dataConsulta', 'documentType', 'documentValue', 'selectedDate', 'researchPeriod', 'actions'];
-  dataSource: MatTableDataSource<DialogData> = new MatTableDataSource<DialogData>([]);
+  displayedColumns: string[] = ['usuario', 'dataAtual', 'documentType', 'documentValue', 'data', 'periodo', 'actions'];
+  dataSource: MatTableDataSource<HistoricoModel> = new MatTableDataSource<HistoricoModel>([]);
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -24,8 +23,7 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private consultaService: ConsultaService,
-    private headerService: HeaderService,
-    private Router: Router
+    private headerService: HeaderService
   ) {
     this.headerService.headerData = {
       title: 'Consultas',
@@ -35,11 +33,36 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.consultaService.getSearchHistory().subscribe(history => {
-      this.dataSource.data = history;
+    this.consultaService.getSearchHistory().subscribe({
+      next: (history) => {
+        console.log('Dados recebidos:', history);
+        
+        // Converte datas de string para Date
+        history.forEach(h => {
+          if (typeof h.dataAtual === 'string') {
+            h.dataAtual = this.convertToDate(h.dataAtual);
+          }
+          if (typeof h.data === 'string') {
+            h.data = this.convertToDate(h.data);
+          }
+        });
+
+        this.dataSource.data = history;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar histórico', err);
+      }
     });
   }
 
+  private convertToDate(dateString: string): Date {
+    let parts = dateString.split(/[-\/]/);
+    let day = +parts[0];
+    let month = +parts[1] - 1; // mês é 0 baseado
+    let year = +parts[2];
+    return new Date(year, month, day);
+  }
+  
   ngAfterViewInit(): void {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
@@ -54,13 +77,4 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
       width: '500px'
     });
   }
-
-  performSearchFromHistory(history: DialogData): void {
-    if (history.tipo === 'cpf') {
-      this.Router.navigate(['/peps'], { queryParams: { cpf: history.documento } });
-    } else if (history.tipo === 'cnpj') {
-      this.Router.navigate(['/cepim'], { queryParams: { cnpj: history.documento } });
-    }
-  }
-
 }
