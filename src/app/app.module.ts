@@ -38,6 +38,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { CepimPageComponent } from './components/cepim-page/cepim-page.component';
+import { HistoricoPepsComponent } from './views/historico-peps/historico-peps.component';
 registerLocaleData(localePt);
 
 @NgModule({
@@ -50,7 +51,9 @@ registerLocaleData(localePt);
     ConsultaComponent,
     ConsultaDialogComponent,
     PepsPageComponent,
-    CepimPageComponent
+    CepimPageComponent,
+    HistoricoPepsComponent
+    
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import { ConsultaDialogComponent } from './../../consulta-dialog/consulta-dialog
 import { ConsultaService } from './consulta.service';
 import { HistoricoModel } from 'src/app/model/historicoModel';
 import { HeaderService } from 'src/app/components/template/header/header.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-consulta',
@@ -23,7 +24,8 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private consultaService: ConsultaService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private router: Router
   ) {
     this.headerService.headerData = {
       title: 'Consultas',
@@ -77,4 +79,19 @@ export class ConsultaComponent implements OnInit, AfterViewInit {
       width: '500px'
     });
   }
+  viewDetails(id: number, tipo: string): void {
+    let route: string;
+    if (tipo.toLowerCase() === 'cpf') {
+      route = `/pepsHistorico/${id}`;
+    } else if (tipo.toLowerCase() === 'cnpj') {
+      route = `/cepimHistorico/${id}`;
+    } else {
+      console.error('Tipo de documento desconhecido:', tipo);
+      return;
+    }
+  
+    // Navega para a rota com o ID diretamente na URL
+    this.router.navigate([route]);
+  }
+  
 }

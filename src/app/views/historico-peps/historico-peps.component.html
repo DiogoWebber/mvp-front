@@ -1,0 +1,71 @@
+<div class="table-container">
+  <h2 class="table-title">PEPS</h2>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+
+    <!-- Definição das colunas principais -->
+    <ng-container matColumnDef="cpf">
+      <th mat-header-cell *matHeaderCellDef> CPF </th>
+      <td mat-cell *matCellDef="let element"> {{element.cpf}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nome">
+      <th mat-header-cell *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="descricaoFuncao">
+      <th mat-header-cell *matHeaderCellDef> Descrição Função </th>
+      <td mat-cell *matCellDef="let element"> {{element.descricaoFuncao}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nomeOrgao">
+      <th mat-header-cell *matHeaderCellDef> Órgão </th>
+      <td mat-cell *matCellDef="let element"> {{element.nomeOrgao}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dtInicioExercicio">
+      <th mat-header-cell *matHeaderCellDef> Início Exercício </th>
+      <td mat-cell *matCellDef="let element"> {{element.dtInicioExercicio | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dtFimExercicio">
+      <th mat-header-cell *matHeaderCellDef> Fim Exercício </th>
+      <td mat-cell *matCellDef="let element"> {{element.dtFimExercicio | date}} </td>
+    </ng-container>
+
+    <!-- Coluna de ações (expandir/colapsar) -->
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef> Ações </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row" (click)="toggleExtraInfo(element); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Coluna para detalhes expandidos -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="example-element-detail"
+             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="expanded-content">
+            <div><strong>Código Órgão:</strong> {{element.codOrgao}}</div>
+            <div><strong>Sigla Função:</strong> {{element.siglaFuncao}}</div>
+            <div><strong>Nível Função:</strong> {{element.nivelFuncao}}</div>
+            <div><strong>Fim Carência:</strong> {{element.dtFimCarencia | date}}</div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Linhas do cabeçalho e do corpo da tabela -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="toggleExtraInfo(element)">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+</div>

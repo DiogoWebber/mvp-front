@@ -4,6 +4,7 @@ import {HomeComponent} from './views/home/home.component'
 import { ConsultaComponent } from './views/consulta/consulta.component';
 import { PepsPageComponent } from './components/peps-page/peps-page.component';
 import { CepimPageComponent } from './components/cepim-page/cepim-page.component';
+import { HistoricoPepsComponent } from './views/historico-peps/historico-peps.component';
 const routes: Routes = [{
   path: "",
   component: HomeComponent
@@ -16,6 +17,9 @@ const routes: Routes = [{
 },{
   path: 'cepim',
   component: CepimPageComponent
+},{
+  path: 'pepsHistorico/:id',
+  component: HistoricoPepsComponent
 }];
 
 @NgModule({

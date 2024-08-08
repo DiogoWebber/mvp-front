@@ -29,4 +29,8 @@ export class ConsultaService {
   getSearchHistory(): Observable<HistoricoModel[]> {
     return this.http.get<HistoricoModel[]>(`${this.baseUrl}`);
   }
+
+  getDetailsById(id: number): Observable<PepsModel> {
+    return this.http.get<PepsModel>(`${this.baseUrl}/${id}`);
+  }
 }
