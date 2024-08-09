@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ConsultaService } from 'src/app/views/consulta/consulta.service';
-import { CepimModel } from 'src/app/model/cepim.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { CepimModel } from 'src/app/model/cepim.model'; // Verifique o caminho correto
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HeaderService } from '../template/header/header.service';
+import { ConsultaService } from 'src/app/views/consulta/consulta.service';
 import { ActivatedRoute } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DialogData } from 'src/app/model/dialog-data.model';
 
 @Component({
@@ -22,7 +22,7 @@ import { DialogData } from 'src/app/model/dialog-data.model';
         opacity: 0
       })),
       state('expanded', style({
-        height: '*', /* Ajusta a altura automaticamente para o conteúdo */
+        height: '*',
         visibility: 'visible',
         opacity: 1,
         borderRadius: '4px'
@@ -31,7 +31,7 @@ import { DialogData } from 'src/app/model/dialog-data.model';
         animate('300ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ]),
     ]),
-  ]  
+  ]
 })
 export class CepimPageComponent implements OnInit {
   displayedColumns: string[] = ['id', 'dataReferencia', 'motivo', 'orgaoSuperior', 'pessoaJuridica', 'convenio', 'expand'];
@@ -55,14 +55,21 @@ export class CepimPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const pesquisa = params as DialogData;
+      const pesquisa: DialogData = params as DialogData;
       if (pesquisa) {
-        this.consultaService.getCepimByCnpj(pesquisa.documento).subscribe(data => {
-          this.dataSource.data = data;
+        this.consultaService.getCepimByCnpj(pesquisa).subscribe({
+          next: (data: CepimModel[]) => {
+            this.dataSource.data = data;
+          },
+          error: (err) => {
+            console.error('Erro ao buscar dados:', err);
+          }
         });
       }
     });
   }
+
+ 
 
   toggleExtraInfo(element: CepimModel): void {
     this.expandedElement = this.expandedElement === element ? null : element;

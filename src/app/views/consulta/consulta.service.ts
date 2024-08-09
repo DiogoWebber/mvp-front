@@ -12,8 +12,7 @@ export class ConsultaService {
   private pepsApiUrl = 'https://localhost:7121/api/v1/peps/busca';
   private cepimApiUrl = 'https://localhost:7121/api/v1/cepim/busca';
   private baseUrl = 'https://localhost:7121/api/v1/Historico/historico';
-  private searchHistory: BehaviorSubject<HistoricoModel[]> = new BehaviorSubject<HistoricoModel[]>([]);
-
+  
   constructor(private http: HttpClient) { }
 
   getPepsByCpf(pesquisa: any): Observable<PepsModel[]> {
@@ -21,8 +20,10 @@ export class ConsultaService {
     return this.http.get<PepsModel[]>(url);
   }
 
-  getCepimByCnpj(cnpj: string): Observable<CepimModel[]> {
-    const url = `${this.cepimApiUrl}/${encodeURIComponent(cnpj)}`;
+  getCepimByCnpj(pesquisa: any): Observable<CepimModel[]> {
+    console.log('Pesquisa:', pesquisa);
+    const url = `${this.cepimApiUrl}?Tipo=${encodeURIComponent(pesquisa.tipo)}&Documento=${encodeURIComponent(pesquisa.documento)}&Data=${encodeURIComponent(pesquisa.data)}&Periodo=${encodeURIComponent(pesquisa.periodo)}`;
+    console.log('URL:', url);
     return this.http.get<CepimModel[]>(url);
   }
 
@@ -33,4 +34,9 @@ export class ConsultaService {
   getDetailsById(id: number): Observable<PepsModel> {
     return this.http.get<PepsModel>(`${this.baseUrl}/${id}`);
   }
+  
+  getDetailcepimById(id: number): Observable<CepimModel> {
+    return this.http.get<CepimModel>(`${this.baseUrl}/${id}`);
+  }
+  
 }

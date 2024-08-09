@@ -39,7 +39,8 @@ import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { CepimPageComponent } from './components/cepim-page/cepim-page.component';
 import { HistoricoPepsComponent } from './views/historico-peps/historico-peps.component';
-import { ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
+import { ReactiveFormsModule } from '@angular/forms';
+import { HistoricoCepimComponent } from './views/historico-cepim/historico-cepim.component'; // Import ReactiveFormsModule
 
 registerLocaleData(localePt);
 
@@ -54,7 +55,8 @@ registerLocaleData(localePt);
     ConsultaDialogComponent,
     PepsPageComponent,
     CepimPageComponent,
-    HistoricoPepsComponent
+    HistoricoPepsComponent,
+    HistoricoCepimComponent
     
   ],
   imports: [

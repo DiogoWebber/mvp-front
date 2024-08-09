@@ -33,7 +33,7 @@ export class ConsultaDialogComponent implements OnInit{
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       documentType: ['', Validators.required],
-      documentValue: ['', [Validators.required, CpfCnpjValidator.validateCpfCnpj()]],
+      documentValue: ['', [Validators.required, CpfCnpjValidator.validateCpfCnpj()]], // Apply the custom validator here
       selectedDate: ['', Validators.required],
       researchPeriod: ['', Validators.required]
     })
