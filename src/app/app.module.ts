@@ -39,6 +39,8 @@ import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { CepimPageComponent } from './components/cepim-page/cepim-page.component';
 import { HistoricoPepsComponent } from './views/historico-peps/historico-peps.component';
+import { ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
+
 registerLocaleData(localePt);
 
 @NgModule({
@@ -80,7 +82,8 @@ registerLocaleData(localePt);
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [{
     provide: LOCALE_ID,

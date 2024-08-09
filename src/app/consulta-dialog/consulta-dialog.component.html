@@ -1,54 +1,59 @@
 <h1 mat-dialog-title>Nova Consulta</h1>
 <div mat-dialog-content>
-  <div class="form-group">
-    <!-- Grupo com Tipo de Documento e Data -->
-    <div class="type-date-container">
-      <mat-form-field appearance="fill" class="type-field">
-        <mat-label>Tipo de Documento</mat-label>
-        <mat-select [(ngModel)]="documentType" (selectionChange)="onDocumentTypeChange($event.value)">
-          <mat-option value="cpf">CPF</mat-option>
-          <mat-option value="cnpj">CNPJ</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="form-group">
+      <!-- Grupo com Tipo de Documento e Data -->
+      <div class="type-date-container">
+        <mat-form-field appearance="fill" class="type-field">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select formControlName="documentType" (selectionChange)="onDocumentTypeChange($event.value)">
+            <mat-option value="cpf">CPF</mat-option>
+            <mat-option value="cnpj">CNPJ</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill" class="date-field">
-        <mat-label>Escolha uma data</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="MM/DD/YYYY" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-hint>MM/DD/YYYY</mat-hint>
-      </mat-form-field>
-    </div>
+        <mat-form-field appearance="fill" class="date-field">
+          <mat-label>Escolha uma data</mat-label>
+          <input matInput [matDatepicker]="picker"  formControlName="selectedDate" placeholder="MM/DD/YYYY" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+        </mat-form-field>
+      </div>
 
-    <!-- Grupo com CPF/CNPJ e Data da Pesquisa -->
-    <div class="cpf-cnpj-container">
-      <mat-form-field appearance="fill" class="cpf-cnpj-field">
-        <mat-label>{{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}</mat-label>
-        <input matInput [(ngModel)]="documentValue"
-          [mask]="documentType === 'cpf' ? '000.000.000-00' : '00.000.000/0000-00'"
-          placeholder="Digite o {{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}" />
-      </mat-form-field>  
+<!-- Grupo com CPF/CNPJ e Data da Pesquisa -->
+<div class="cpf-cnpj-container">
+  <mat-form-field appearance="fill" class="cpf-cnpj-field">
+    <mat-label>{{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}</mat-label>
+    <input matInput formControlName="documentValue"
+      [mask]="documentType === 'cpf' ? '000.000.000-00' : '00.000.000/0000-00'"
+      placeholder="Digite o {{ documentType === 'cpf' ? 'CPF' : 'CNPJ' }}" />
+    
+    <!-- Exibe erro se o documento for inválido -->
+    <mat-error *ngIf="form.controls['documentValue'].hasError('cpfCnpjInvalid')">
+      {{ documentType === 'cpf' ? 'CPF inválido' : 'CNPJ inválido' }}
+    </mat-error>
+  </mat-form-field>
 
-      <!-- Campo para selecionar o intervalo de pesquisa -->
-      <mat-form-field appearance="fill" class="research-period-field">
-        <mat-label>Data da Pesquisa</mat-label>
-        <mat-select [(ngModel)]="researchPeriod">
-          <mat-option value="1">1 Mês</mat-option>
-          <mat-option value="2">2 Meses</mat-option>
-          <mat-option value="3">3 Meses</mat-option>
-          <mat-option value="4">4 Meses</mat-option>
-          <mat-option value="5">5 Meses</mat-option>
-          <mat-option value="6">6 Meses</mat-option>
-          <mat-option value="7">7 Meses</mat-option>
-          <mat-option value="8">8 Meses</mat-option>
-          <mat-option value="9">9 Meses</mat-option>
-          <mat-option value="10">10 Meses</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
+  <!-- Campo para selecionar o intervalo de pesquisa -->
+  <mat-form-field appearance="fill" class="research-period-field">
+    <mat-label>Data da Pesquisa</mat-label>
+    <mat-select formControlName="researchPeriod">
+      <mat-option value="1">1 Mês</mat-option>
+      <mat-option value="2">2 Meses</mat-option>
+      <mat-option value="3">3 Meses</mat-option>
+      <mat-option value="4">4 Meses</mat-option>
+      <mat-option value="5">5 Meses</mat-option>
+      <mat-option value="6">6 Meses</mat-option>
+      <mat-option value="7">7 Meses</mat-option>
+      <mat-option value="8">8 Meses</mat-option>
+      <mat-option value="9">9 Meses</mat-option>
+      <mat-option value="10">10 Meses</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onSubmit()">Consultar</button>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onSubmit()" [disabled]="form.invalid">Consultar</button>
   <button mat-button (click)="onClose()">Fechar</button>
 </div>
