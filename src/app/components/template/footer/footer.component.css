@@ -1,12 +1,21 @@
-.footer{
-    position: fixed;
-    bottom: 0;
+.footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000; /* Adicione isso */
+  height: 50px; /* Defina uma altura apropriada */
+ color: white;
 
-    display: flex;
-    justify-content: flex-end;
 }
+
 
 .footer > span{
     font-size: 1.1rem;
     font-weight: 300;
+    
+}
+.mat-toolbar{
+    background-color: #6076f3; /* Cor de fundo, se necessário */
+
 }

@@ -9,9 +9,9 @@ import { HistoricoModel } from 'src/app/model/historicoModel';
   providedIn: 'root'
 })
 export class ConsultaService {
-  private pepsApiUrl = 'https://localhost:7121/api/v1/peps/busca';
-  private cepimApiUrl = 'https://localhost:7121/api/v1/cepim/busca';
-  private baseUrl = 'https://localhost:7121/api/v1/Historico/historico';
+  private pepsApiUrl = 'https://172.23.15.38:7121/api/v1/peps/busca';
+  private cepimApiUrl = 'https://172.23.15.38:7121/api/v1/cepim/busca';
+  private baseUrl = 'https://172.23.15.38:7121/api/v1/Historico/historico';
   
   constructor(private http: HttpClient) { }
 
